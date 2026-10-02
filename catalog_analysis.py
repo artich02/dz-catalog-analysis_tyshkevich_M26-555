@@ -105,14 +105,76 @@ def duration_in_hours(minutes):
     return f"{hours}ч {mins}м"
 
 
+# 2 этап
+
+
+def rating_tier(rating):
+    if rating >= 9.0:
+        return "шедевр"
+    elif rating >= 7.0:
+        return "хорошо"
+    else:
+        return "средне" if rating >= 5.0 else "слабо"
+
+
+def decade_label(year):
+    match year:
+        case _ if year > 2020:
+            return "новые"
+        case _ if 2015 <= year <= 2020:
+            return "недавние"
+        case _:
+            return "старые"
+
+
+# 3 этап
+
+for movie in movies:
+    if "comedy" in movie["genres"]:
+        continue
+    print(movie["title"])
+
+idx = 0
+while idx < len(movies):
+    if movies[idx]["rating"] > 9.0:
+        print(f"Найден шедевр: {movies[idx]['title']}")
+        break
+    idx += 1
+else:
+    print("Шедевров не найдено")
+
+
+def count_long_movies(movies, threshold=100):
+    count = 0
+    for movie in movies:
+        if movie["duration_min"] > threshold:
+            count += 1
+    return count
+
+
+# 4 этап
+
+
+def normalize_title(title):
+    words = title.split()
+    capitalized_words = [word[0].upper() + word[1:] for word in words]
+    return " ".join(capitalized_words)
+
+
+def make_slug(title):
+    return title.lower().replace(" ", "-")
+
+
+def format_report_line(movie):
+    title = normalize_title(movie["title"])
+    genres = ", ".join(sorted(movie["genres"]))
+    duration = duration_in_hours(movie["duration_min"])
+    return f'"{title}" ({movie["year"]}) — {movie["rating"]}/10, {duration}, жанры: {genres}'
+
+
 def main():
-    print("Hello from dz-catalog-analysis-tyshkevich-m26-555!\n")
+    print("test")
 
-    avg_r = average_rating(movies)
-    print(avg_r)
-
-    avg_age = catalog_age_stats(movies)
-    print(avg_age)
 
 
 if __name__ == "__main__":
