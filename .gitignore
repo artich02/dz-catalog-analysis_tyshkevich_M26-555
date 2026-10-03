@@ -4,6 +4,7 @@
 venv/
 ENV/
 env/
+.python-version
 
 # Кэш Ruff
 .ruff_cache/
